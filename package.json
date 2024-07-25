@@ -1,10 +1,12 @@
 {
+	"type": "module",
 	"scripts": {
 		"format-js": "prettier ./jsScripts/* --write --ignore-path .prettierignore",
 		"generate-root": "node ./jsScripts/generateMerkleRoot.js",
 		"generate-proof": "node ./jsScripts/generateMerkleProof.js"
 	},
 	"devDependencies": {
+		"@openzeppelin/merkle-tree": "^1.0.7",
 		"prettier": "^3.3.3"
 	}
 }
