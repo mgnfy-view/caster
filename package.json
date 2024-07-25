@@ -1,0 +1,10 @@
+{
+	"scripts": {
+		"format-js": "prettier ./jsScripts/* --write --ignore-path .prettierignore",
+		"generate-root": "node ./jsScripts/generateMerkleRoot.js",
+		"generate-proof": "node ./jsScripts/generateMerkleProof.js"
+	},
+	"devDependencies": {
+		"prettier": "^3.3.3"
+	}
+}
