@@ -1,5 +1,3 @@
-import fs from "fs";
-
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 import { inputValueForm, input } from "./input/input.js";
@@ -23,8 +21,8 @@ function generateMerkleRootAndProof() {
     return {
         merkleTree,
         merkleRoot,
-        merkleProof
-    }
+        merkleProof,
+    };
 }
 
 generateMerkleRootAndProof();
