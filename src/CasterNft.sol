@@ -11,8 +11,8 @@ contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     mapping(address user => uint256 id) private s_userToId;
     mapping(address user => uint256 votingPower) s_userToVotingPower;
 
-    event VotingPowerIncreased(address user, uint256 amount);
-    event VotingPowerDecreased(address user, uint256 amount);
+    event VotingPowerIncreased(address indexed user, uint256 indexed amount);
+    event VotingPowerDecreased(address indexed user, uint256 indexed amount);
 
     error CasterNft__VotingIdAlreadyMinted();
 
@@ -22,8 +22,8 @@ contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
         id = ++s_idCounter;
         s_userToId[_user] = id;
         s_userToVotingPower[_user] = _votingPower;
-
         _setTokenURI(id, _uri);
+
         _safeMint(_user, id);
     }
 

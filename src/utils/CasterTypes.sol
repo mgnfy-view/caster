@@ -23,6 +23,12 @@ abstract contract CasterTypes {
         uint256 votesFor;
     }
 
+    enum SingleOptionResult {
+        For,
+        Against,
+        Tie
+    }
+
     struct CreateCampaign {
         string name;
         string description;
