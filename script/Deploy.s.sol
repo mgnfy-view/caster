@@ -6,20 +6,22 @@ import { Script } from "forge-std/Script.sol";
 import { CasterFactory } from "@src/CasterFactory.sol";
 
 contract Deploy is Script {
-    address public s_feeReceiver;
-    CasterFactory public s_factory;
+    address public feeReceiver;
+    CasterFactory public factory;
 
     uint256 constant SEPOLIA_CHAIN_ID = 11155111;
     uint256 constant ANVIL_CHAIN_ID = 31337;
 
     error Deploy__InvalidChainId();
 
-    function run() public {
-        s_feeReceiver = address(0x1); // Set the correct fee receiver here
+    function run() public returns (address) {
+        feeReceiver = getFeeReceiver();
 
         vm.startBroadcast();
-        s_factory = new CasterFactory(s_feeReceiver);
+        factory = new CasterFactory(feeReceiver);
         vm.stopBroadcast();
+
+        return address(factory);
     }
 
     function getFeeReceiver() public view returns (address feeReceiver) {
