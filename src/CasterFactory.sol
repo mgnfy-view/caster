@@ -96,4 +96,12 @@ contract CasterFactory is Ownable, ICasterFactory {
     function getAllCampaigns() external view returns (address[] memory allCampaigns) {
         allCampaigns = s_allCampaigns;
     }
+
+    function getFeeReceiver() external view returns (address feeReceiver) {
+        feeReceiver = s_feeReceiver;
+    }
+
+    function getFee() external pure returns (uint256 fee) {
+        fee = FEE;
+    }
 }

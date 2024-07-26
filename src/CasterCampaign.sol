@@ -207,4 +207,40 @@ contract CasterCampaign is ICasterCampaign {
             }
         }
     }
+
+    function getCampaignName() external view returns (string memory name) {
+        name = s_name;
+    }
+
+    function getCampaignDescription() external view returns (string memory description) {
+        description = s_description;
+    }
+
+    function getCampaignType() external view returns (CasterTypes.CampaignType campaignType) {
+        campaignType = i_campaignType;
+    }
+
+    function getSingleOption() external view returns (CasterTypes.SingleOption memory singleOption) {
+        singleOption = s_singleOption;
+    }
+
+    function getMultipleOptions() external view returns (CasterTypes.MultipleOption[] memory multipleOptions) {
+        multipleOptions = s_multipleOptions;
+    }
+
+    function getMerkleRoot() external view returns (bytes32 merkleRoot) {
+        merkleRoot = i_merkleRoot;
+    }
+
+    function getLastTimestamp() external view returns (uint256 lastTimestamp) {
+        lastTimestamp = i_lastTimestamp;
+    }
+
+    function getCampaignDuration() external view returns (uint256 duration) {
+        duration = i_duration;
+    }
+
+    function getCasterNft() external view returns (address casterNft) {
+        casterNft = i_casterNft;
+    }
 }

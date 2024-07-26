@@ -4,9 +4,9 @@ pragma solidity 0.8.24;
 interface ICasterNft {
     function mint(address _user, uint256 _votingPower, string memory _uri) external returns (uint256 id);
 
-    function decreaseVotingPower(address _user, uint256 _amount) external;
-
     function increaseVotingPower(address _user, uint256 _amount) external;
+
+    function decreaseVotingPower(address _user, uint256 _amount) external;
 
     function getNextIdToMint() external view returns (uint256 nextId);
 
