@@ -24,11 +24,11 @@ contract Deploy is Script {
         return address(factory);
     }
 
-    function getFeeReceiver() public view returns (address feeReceiver) {
+    function getFeeReceiver() public view returns (address feeReceiverAddress) {
         // Use a custom EOA address for Sepolia testnet
-        if (block.chainid == SEPOLIA_CHAIN_ID) feeReceiver = 0xE5261f469bAc513C0a0575A3b686847F48Bc6687;
+        if (block.chainid == SEPOLIA_CHAIN_ID) feeReceiverAddress = 0xE5261f469bAc513C0a0575A3b686847F48Bc6687;
         // For anvil, the fee receiver is the default account
-        else if (block.chainid == ANVIL_CHAIN_ID) feeReceiver = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
+        else if (block.chainid == ANVIL_CHAIN_ID) feeReceiverAddress = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
         else revert Deploy__InvalidChainId();
     }
 }
