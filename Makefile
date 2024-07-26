@@ -1,16 +1,16 @@
-all:  remove install build
+all :  remove install build
 
-clean  :; forge clean
+clean :; forge clean
 
 remove :; rm -rf .gitmodules && rm -rf .git/modules/* && rm -rf lib && touch .gitmodules && git add . && git commit -m "modules"
 
 install :; forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit
 
-update:; forge update
+update :; forge update
 
-compile:; forge compile
+compile :; forge compile
 
-build:; forge build
+build :; forge build
 
 test :; forge test
 
