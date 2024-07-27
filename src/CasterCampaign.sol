@@ -93,6 +93,14 @@ contract CasterCampaign is ICasterCampaign {
         emit Initialized(_campaignParams, i_casterNft);
     }
 
+    /**
+     * @notice Mints a unique voting id (nft) to an eligible voter (if the user can provee themselves
+     * to be part of the merkle root supplied by the campaign creator).
+     * @param _votingPower The number of votes the user has.
+     * @param _merkleProof The proof required to prove that the user is a part of the merkle tree.
+     * @param _uri Preferably, a custom ipfs uri which allows users to set their details for the campaign.
+     * @return id The unique voting id (nft) minted.
+     */
     function mintCampaignId(
         uint256 _votingPower,
         bytes32[] memory _merkleProof,
@@ -115,6 +123,11 @@ contract CasterCampaign is ICasterCampaign {
         emit VoterRegistered(msg.sender, _votingPower, id, _merkleProof);
     }
 
+    /**
+     * @notice Allows any eligible voter to delegate their votes to a single user.
+     * @param _user The user to delegate votes to.
+     * @param _votes The number of votes to delegate.
+     */
     function delegateTo(address _user, uint256 _votes) external beforeCampaignEnd {
         if (IERC721(i_casterNft).balanceOf(msg.sender) == 0) revert CasterCampaign__NoChainedDelegationAllowed();
         ICasterNft(i_casterNft).decreaseVotingPower(msg.sender, _votes);
@@ -123,6 +136,11 @@ contract CasterCampaign is ICasterCampaign {
         emit VotingPowerDelegated(msg.sender, _user, _votes);
     }
 
+    /**
+     * @notice Allows any eligible voter to delegate their votes to multiple users.
+     * @param _users The user addresses.
+     * @param _votes The amount of votes to delegate to different users.
+     */
     function batchDelegate(address[] memory _users, uint256[] memory _votes) external {
         uint256 usersLength = _users.length;
         uint256 votesLength = _votes.length;
@@ -142,6 +160,12 @@ contract CasterCampaign is ICasterCampaign {
         emit VotingPowerBatchDelegated(msg.sender, _users, _votes);
     }
 
+    /**
+     * @notice Allows voters with voting powers (received through the nft or delegation) to vote in a
+     * single option campaign.
+     * @param _isAgainst True if against the option, false otherwise.
+     * @param _votes The number of votes to use.
+     */
     function voteSingleOption(bool _isAgainst, uint256 _votes) external beforeCampaignEnd {
         if (i_campaignType == CasterTypes.CampaignType.MultipleOption) {
             revert CasterCampaign__InvalidVotingMethod(CasterTypes.CampaignType.MultipleOption);
@@ -158,6 +182,12 @@ contract CasterCampaign is ICasterCampaign {
         emit VotedSingleOption(msg.sender, _isAgainst, _votes);
     }
 
+    /**
+     * @notice Allows voters with voting powers (received through the nft or delegation) to vote in a
+     * multiple option campaign.
+     * @param _index The option to vote for.
+     * @param _votes The number of votes to use.
+     */
     function voteMultipleOption(uint256 _index, uint256 _votes) external beforeCampaignEnd {
         if (i_campaignType == CasterTypes.CampaignType.SingleOption) {
             revert CasterCampaign__InvalidVotingMethod(CasterTypes.CampaignType.SingleOption);
@@ -171,6 +201,10 @@ contract CasterCampaign is ICasterCampaign {
         emit VotedMultipleOption(msg.sender, _index, _votes);
     }
 
+    /**
+     * @notice Gets the result of a single option voting campaign.
+     * @return result The result -- For (statement agreed with), Against (statement disagreed with), or Tie.
+     */
     function getResultSingleOption() external view afterCampaignEnd returns (CasterTypes.SingleOptionResult result) {
         if (i_campaignType == CasterTypes.CampaignType.MultipleOption) {
             revert CasterCampaign__InvalidVotingMethod(CasterTypes.CampaignType.MultipleOption);
@@ -183,6 +217,10 @@ contract CasterCampaign is ICasterCampaign {
         else result = CasterTypes.SingleOptionResult.Tie;
     }
 
+    /**
+     * @notice Gets the result of a single option voting campaign.
+     * @return index The index of the winning option. type(uint256).max in case of a tie.
+     */
     function getResultMultipleOption() external view afterCampaignEnd returns (uint256 index) {
         if (i_campaignType == CasterTypes.CampaignType.SingleOption) {
             revert CasterCampaign__InvalidVotingMethod(CasterTypes.CampaignType.SingleOption);
@@ -208,38 +246,74 @@ contract CasterCampaign is ICasterCampaign {
         }
     }
 
+    /**
+     * @notice Gets he campaign's name.
+     * @return name A string name.
+     */
     function getCampaignName() external view returns (string memory name) {
         name = s_name;
     }
 
+    /**
+     * @notice Gets the campaign's description.
+     * @return description A string description.
+     */
     function getCampaignDescription() external view returns (string memory description) {
         description = s_description;
     }
 
+    /**
+     * @notice Gets the campaign type (single option or multiple option).
+     * @return campaignType 0 for single option and 1 for multiple option campaign.
+     */
     function getCampaignType() external view returns (CasterTypes.CampaignType campaignType) {
         campaignType = i_campaignType;
     }
 
+    /**
+     * @notice Gets the single option details.
+     * @return singleOption The SingleOption struct.
+     */
     function getSingleOption() external view returns (CasterTypes.SingleOption memory singleOption) {
         singleOption = s_singleOption;
     }
 
+    /**
+     * @notice Gets the multiple options available to vote for a multiple option campaign.
+     * @return multipleOptions An array of MultipleOption structs.
+     */
     function getMultipleOptions() external view returns (CasterTypes.MultipleOption[] memory multipleOptions) {
         multipleOptions = s_multipleOptions;
     }
 
+    /**
+     * @notice The merkle root for a campaign. Used to validate eligible users.
+     * @return merkleRoot A bytes32 merkle root.
+     */
     function getMerkleRoot() external view returns (bytes32 merkleRoot) {
         merkleRoot = i_merkleRoot;
     }
 
+    /**
+     * @notice The timestamp when the campaign was deployed.
+     * @return lastTimestamp UNIX timestamp.
+     */
     function getLastTimestamp() external view returns (uint256 lastTimestamp) {
         lastTimestamp = i_lastTimestamp;
     }
 
+    /**
+     * @notice Gets the duration for which the campaign will run.
+     * @return duration The campaign duration.
+     */
     function getCampaignDuration() external view returns (uint256 duration) {
         duration = i_duration;
     }
 
+    /**
+     * @notice Gets the caster nft associated with this campaign.
+     * @return casterNft The address of the caster nft.
+     */
     function getCasterNft() external view returns (address casterNft) {
         casterNft = i_casterNft;
     }

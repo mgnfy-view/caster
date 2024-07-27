@@ -8,6 +8,12 @@ import { ICasterFactory } from "./interfaces/ICasterFactory.sol";
 import { CasterCampaign } from "./CasterCampaign.sol";
 import { CasterTypes } from "./utils/CasterTypes.sol";
 
+/**
+ * @title CasterFactory.
+ * @author mgnfy-view.
+ * @notice This contract is the entry point to the Caster protocol. Any user can create voting
+ * campaigns in a permissionless manner.
+ */
 contract CasterFactory is Ownable, ICasterFactory {
     mapping(address user => uint256 nonce) private s_nonces;
     mapping(bytes32 hash => address campaign) private s_hashToCampaign;
@@ -37,6 +43,11 @@ contract CasterFactory is Ownable, ICasterFactory {
         s_feeReceiver = _feeReceiver;
     }
 
+    /**
+     * @notice Allows anyone to deploy a new voting campaign by paying a small fee.
+     * @param _campaignParams The parameters for the campaign creation.
+     * @return votingCampaign The address of the deployed voting campaign.
+     */
     function createVotingCampaign(CasterTypes.CreateCampaign memory _campaignParams)
         external
         payable
@@ -75,32 +86,62 @@ contract CasterFactory is Ownable, ICasterFactory {
         );
     }
 
+    /**
+     * @notice Allows the owner to change the fee receiver address.
+     * @param _newFeeReceiver The new fee receiver's address.
+     */
     function changeFeeReceiver(address _newFeeReceiver) external onlyOwner {
         s_feeReceiver = _newFeeReceiver;
 
         emit FeeReceiverChanged(_newFeeReceiver);
     }
 
+    /**
+     * @notice Gets the nonce of the user.
+     * @param _user The user's address.
+     * @return nonce The nonce value.
+     */
     function getNonceForUser(address _user) external view returns (uint256 nonce) {
         nonce = s_nonces[_user];
     }
 
+    /**
+     * @notice Gets the address of the deployed campaign from the supplied hash.
+     * @param _hash The hash of the campaign generated using keccak256(abi.encode(owner, campaignName, merkleRoot, nonce)).
+     * @return campaign The campaign's address.
+     */
     function getCampaignFromHash(bytes32 _hash) external view returns (address campaign) {
         campaign = s_hashToCampaign[_hash];
     }
 
+    /**
+     * @notice Gets the max duration any campaign can have.
+     * @return maxDuration The max duration.
+     */
     function getCampaignMaxDuration() external pure returns (uint256 maxDuration) {
         maxDuration = MAX_DURATION;
     }
 
+    /**
+     * @notice Gets addresses of all campaigns deployed so far. Useful for UI development purposes.
+     * @return allCampaigns Addresses of all campaigns.
+     */
     function getAllCampaigns() external view returns (address[] memory allCampaigns) {
         allCampaigns = s_allCampaigns;
     }
 
+    /**
+     * @notice Gets the fee receiver's address.
+     * @return feeReceiver The fee receiver's address.
+     */
     function getFeeReceiver() external view returns (address feeReceiver) {
         feeReceiver = s_feeReceiver;
     }
 
+    /**
+     * @notice Gets the fee to pay in native currency while deploying a campaign.
+     * @return fee The fee value.
+     */
     function getFee() external pure returns (uint256 fee) {
         fee = FEE;
     }
