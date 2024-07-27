@@ -3,10 +3,12 @@ pragma solidity 0.8.24;
 
 import { Test } from "forge-std/Test.sol";
 
+import { EventsAndErrors } from "./EventsAndErrors.sol";
+
 import { CasterFactory } from "@src/CasterFactory.sol";
 import { CasterTypes } from "@src/utils/CasterTypes.sol";
 
-abstract contract GlobalHelper is Test {
+abstract contract GlobalHelper is Test, EventsAndErrors {
     CasterFactory public factory;
 
     address public owner;
@@ -20,14 +22,14 @@ abstract contract GlobalHelper is Test {
     bytes32[] public user3Proof;
 
     function setUp() public {
-        // Since these are anvil accounts, they will be prefunded with 10,000 ETH each
         owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266; // Anvil account 0
         user1 = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8; // Anvil account 1
         user2 = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC; // Anvil account 2
         user3 = 0x90F79bf6EB2c4f870365E785982E1f101E93b906; // Anvil account 3
 
-        vm.prank(owner);
+        vm.startPrank(owner);
         factory = new CasterFactory(owner);
+        vm.stopPrank();
 
         merkleRoot = 0xdf44750511aab2f7b70d8477ca3b5cd5acaa9fc0035692122f63c742012a176a;
 
@@ -102,8 +104,12 @@ abstract contract GlobalHelper is Test {
             duration: _duration
         });
 
-        vm.prank(owner);
-        votingCampaign = factory.createVotingCampaign{ value: factory.getFee() }(params);
+        uint256 fee = factory.getFee();
+        vm.deal(owner, fee);
+
+        vm.startPrank(owner);
+        votingCampaign = factory.createVotingCampaign{ value: fee }(params);
+        vm.stopPrank();
     }
 
     function _deployMultipleOptionCampaign(
@@ -129,7 +135,11 @@ abstract contract GlobalHelper is Test {
             duration: _duration
         });
 
-        vm.prank(owner);
-        votingCampaign = factory.createVotingCampaign{ value: factory.getFee() }(params);
+        uint256 fee = factory.getFee();
+        vm.deal(owner, fee);
+
+        vm.startPrank(owner);
+        votingCampaign = factory.createVotingCampaign{ value: fee }(params);
+        vm.stopPrank();
     }
 }
