@@ -7,12 +7,12 @@ import { ERC721, ERC721URIStorage } from "@openzeppelin/contracts/token/ERC721/e
 import { ICasterNft } from "./interfaces/ICasterNft.sol";
 
 /**
- * @title CasterNft
- * @author mgny-view
- * @notice Each caster nft is deployed by a caster campaign and mints unique voting ids (nfts)
+ * @title CasterNft.
+ * @author mgny-view.
+ * @notice Each caster nft is deployed by a Caster campaign and mints unique voting ids (Nfts)
  * which grant voting power to eligible users (users who are part of the supplied merkle tree)
- * for that campaign. The nft contract is owned by the campaign contract, and most of the verification/
- * valiidation occurs in the campaign rather than the nft.
+ * for that campaign. The Nft contract is owned by the campaign contract, and most of the verification/
+ * validation occurs in the campaign rather than the Nft.
  */
 contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     uint256 private s_idCounter;
@@ -27,11 +27,11 @@ contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) Ownable(msg.sender) { }
 
     /**
-     * @notice Mints a unique voting id (nft) to a user with a specific number of votes.
-     * @param _user the user to mint the voting id to.
+     * @notice Mints a unique voting id (Nft) to a user with a specific number of votes.
+     * @param _user The user to mint the voting id to.
      * @param _votingPower The number of votes to provide to the user.
-     * @param _uri Preferably, a custom ipfs uri which allows users to set their details for the campaign.
-     * @return id The voting id minted the user.
+     * @param _uri Preferably, a custom IPFS URI which allows users to set their details for the campaign.
+     * @return id The voting id minted to the user.
      */
     function mint(address _user, uint256 _votingPower, string memory _uri) external onlyOwner returns (uint256 id) {
         id = ++s_idCounter;
@@ -56,7 +56,7 @@ contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     /**
      * @notice Decreases a user's voting power. Used for delegation purposes.
      * @param _user The user's address.
-     * @param _amount The number of votes to give to take from the user.
+     * @param _amount The number of votes to take from the user.
      */
     function decreaseVotingPower(address _user, uint256 _amount) external onlyOwner {
         s_userToVotingPower[_user] -= _amount;
@@ -84,7 +84,7 @@ contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     /**
      * @notice Gets the user's voting power for the campaign. Susceptible to changes if delegated.
      * @param _user The user's address.
-     * @return votingPower The number of votes a user can exercise.
+     * @return votingPower The number of votes a user can vote with.
      */
     function getUserVotingPower(address _user) external view returns (uint256 votingPower) {
         votingPower = s_userToVotingPower[_user];

@@ -115,7 +115,7 @@ contract CasterFactory is Ownable, ICasterFactory {
     }
 
     /**
-     * @notice Gets the max duration any campaign can have.
+     * @notice Gets the max duration any campaign can run for.
      * @return maxDuration The max duration.
      */
     function getCampaignMaxDuration() external pure returns (uint256 maxDuration) {
@@ -124,7 +124,7 @@ contract CasterFactory is Ownable, ICasterFactory {
 
     /**
      * @notice Gets addresses of all campaigns deployed so far. Useful for UI development purposes.
-     * @return allCampaigns Addresses of all campaigns.
+     * @return allCampaigns Addresses of all campaigns deployed so far.
      */
     function getAllCampaigns() external view returns (address[] memory allCampaigns) {
         allCampaigns = s_allCampaigns;

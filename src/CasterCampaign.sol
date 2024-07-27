@@ -11,6 +11,13 @@ import { ICasterNft } from "./interfaces/ICasterNft.sol";
 import { CasterNft } from "./CasterNft.sol";
 import { CasterTypes } from "./utils/CasterTypes.sol";
 
+/**
+ * @title CasterCampaign.
+ * @author mgnfy-view.
+ * @notice Caster voting campaigns are deployed by the Caster factory and allow eligible
+ * users to mint a unique voting id (Nft), delegate their votes, and vote for or against options.
+ *
+ */
 contract CasterCampaign is ICasterCampaign {
     string private s_name;
     string private s_description;
@@ -94,12 +101,12 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Mints a unique voting id (nft) to an eligible voter (if the user can provee themselves
+     * @notice Mints a unique voting id (Nft) to an eligible voter (if the user can prove themselves
      * to be part of the merkle root supplied by the campaign creator).
      * @param _votingPower The number of votes the user has.
      * @param _merkleProof The proof required to prove that the user is a part of the merkle tree.
-     * @param _uri Preferably, a custom ipfs uri which allows users to set their details for the campaign.
-     * @return id The unique voting id (nft) minted.
+     * @param _uri Preferably, a custom IPFS URI which allows users to set their details for the campaign.
+     * @return id The unique voting id (Nft) minted.
      */
     function mintCampaignId(
         uint256 _votingPower,
@@ -141,7 +148,7 @@ contract CasterCampaign is ICasterCampaign {
      * @param _users The user addresses.
      * @param _votes The amount of votes to delegate to different users.
      */
-    function batchDelegate(address[] memory _users, uint256[] memory _votes) external {
+    function batchDelegate(address[] memory _users, uint256[] memory _votes) external beforeCampaignEnd {
         uint256 usersLength = _users.length;
         uint256 votesLength = _votes.length;
 
@@ -161,7 +168,7 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Allows voters with voting powers (received through the nft or delegation) to vote in a
+     * @notice Allows voters with voting powers (received through the Nft or delegation) to vote in a
      * single option campaign.
      * @param _isAgainst True if against the option, false otherwise.
      * @param _votes The number of votes to use.
@@ -183,7 +190,7 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Allows voters with voting powers (received through the nft or delegation) to vote in a
+     * @notice Allows voters with voting powers (received through the Nft or delegation) to vote in a
      * multiple option campaign.
      * @param _index The option to vote for.
      * @param _votes The number of votes to use.
@@ -247,7 +254,7 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Gets he campaign's name.
+     * @notice Gets the campaign's name.
      * @return name A string name.
      */
     function getCampaignName() external view returns (string memory name) {
@@ -279,7 +286,7 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Gets the multiple options available to vote for a multiple option campaign.
+     * @notice Gets the multiple options available to vote for in a multiple option campaign.
      * @return multipleOptions An array of MultipleOption structs.
      */
     function getMultipleOptions() external view returns (CasterTypes.MultipleOption[] memory multipleOptions) {
@@ -287,7 +294,7 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice The merkle root for a campaign. Used to validate eligible users.
+     * @notice The merkle root for a campaign. Used to verify/validate eligible users.
      * @return merkleRoot A bytes32 merkle root.
      */
     function getMerkleRoot() external view returns (bytes32 merkleRoot) {
@@ -296,7 +303,7 @@ contract CasterCampaign is ICasterCampaign {
 
     /**
      * @notice The timestamp when the campaign was deployed.
-     * @return lastTimestamp UNIX timestamp.
+     * @return lastTimestamp The UNIX timestamp.
      */
     function getLastTimestamp() external view returns (uint256 lastTimestamp) {
         lastTimestamp = i_lastTimestamp;
@@ -311,8 +318,8 @@ contract CasterCampaign is ICasterCampaign {
     }
 
     /**
-     * @notice Gets the caster nft associated with this campaign.
-     * @return casterNft The address of the caster nft.
+     * @notice Gets the Caster Nft associated with this campaign.
+     * @return casterNft The address of the Caster Nft.
      */
     function getCasterNft() external view returns (address casterNft) {
         casterNft = i_casterNft;
