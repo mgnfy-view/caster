@@ -1,5 +1,5 @@
 # CasterFactory
-[Git Source](https://github.com/mgnfy-view/caster/blob/d96545b5627fb207f8442947bac4d9f902606cd5/src/CasterFactory.sol)
+[Git Source](https://github.com/mgnfy-view/caster/blob/8657e2d8bdc226333eb8f21b2a1461cea0ac8fff/src/CasterFactory.sol)
 
 **Inherits:**
 Ownable, [ICasterFactory](/src/interfaces/ICasterFactory.sol/interface.ICasterFactory.md)
@@ -145,7 +145,7 @@ function getCampaignFromHash(bytes32 _hash) external view returns (address campa
 
 ### getCampaignMaxDuration
 
-Gets the max duration any campaign can have.
+Gets the max duration any campaign can run for.
 
 
 ```solidity
@@ -170,7 +170,7 @@ function getAllCampaigns() external view returns (address[] memory allCampaigns)
 
 |Name|Type|Description|
 |----|----|-----------|
-|`allCampaigns`|`address[]`|Addresses of all campaigns.|
+|`allCampaigns`|`address[]`|Addresses of all campaigns deployed so far.|
 
 
 ### getFeeReceiver

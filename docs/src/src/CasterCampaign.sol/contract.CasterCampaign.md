@@ -1,8 +1,14 @@
 # CasterCampaign
-[Git Source](https://github.com/mgnfy-view/caster/blob/d96545b5627fb207f8442947bac4d9f902606cd5/src/CasterCampaign.sol)
+[Git Source](https://github.com/mgnfy-view/caster/blob/8657e2d8bdc226333eb8f21b2a1461cea0ac8fff/src/CasterCampaign.sol)
 
 **Inherits:**
 [ICasterCampaign](/src/interfaces/ICasterCampaign.sol/interface.ICasterCampaign.md)
+
+**Author:**
+mgnfy-view.
+
+Caster voting campaigns are deployed by the Caster factory and allow eligible
+users to mint a unique voting id (Nft), delegate their votes, and vote for or against options.
 
 
 ## State Variables
@@ -93,7 +99,7 @@ constructor(CasterTypes.CreateCampaign memory _campaignParams);
 
 ### mintCampaignId
 
-Mints a unique voting id (nft) to an eligible voter (if the user can provee themselves
+Mints a unique voting id (Nft) to an eligible voter (if the user can prove themselves
 to be part of the merkle root supplied by the campaign creator).
 
 
@@ -113,13 +119,13 @@ function mintCampaignId(
 |----|----|-----------|
 |`_votingPower`|`uint256`|The number of votes the user has.|
 |`_merkleProof`|`bytes32[]`|The proof required to prove that the user is a part of the merkle tree.|
-|`_uri`|`string`|Preferably, a custom ipfs uri which allows users to set their details for the campaign.|
+|`_uri`|`string`|Preferably, a custom IPFS URI which allows users to set their details for the campaign.|
 
 **Returns**
 
 |Name|Type|Description|
 |----|----|-----------|
-|`id`|`uint256`|The unique voting id (nft) minted.|
+|`id`|`uint256`|The unique voting id (Nft) minted.|
 
 
 ### delegateTo
@@ -144,7 +150,7 @@ Allows any eligible voter to delegate their votes to multiple users.
 
 
 ```solidity
-function batchDelegate(address[] memory _users, uint256[] memory _votes) external;
+function batchDelegate(address[] memory _users, uint256[] memory _votes) external beforeCampaignEnd;
 ```
 **Parameters**
 
@@ -156,7 +162,7 @@ function batchDelegate(address[] memory _users, uint256[] memory _votes) externa
 
 ### voteSingleOption
 
-Allows voters with voting powers (received through the nft or delegation) to vote in a
+Allows voters with voting powers (received through the Nft or delegation) to vote in a
 single option campaign.
 
 
@@ -173,7 +179,7 @@ function voteSingleOption(bool _isAgainst, uint256 _votes) external beforeCampai
 
 ### voteMultipleOption
 
-Allows voters with voting powers (received through the nft or delegation) to vote in a
+Allows voters with voting powers (received through the Nft or delegation) to vote in a
 multiple option campaign.
 
 
@@ -220,7 +226,7 @@ function getResultMultipleOption() external view afterCampaignEnd returns (uint2
 
 ### getCampaignName
 
-Gets he campaign's name.
+Gets the campaign's name.
 
 
 ```solidity
@@ -280,7 +286,7 @@ function getSingleOption() external view returns (CasterTypes.SingleOption memor
 
 ### getMultipleOptions
 
-Gets the multiple options available to vote for a multiple option campaign.
+Gets the multiple options available to vote for in a multiple option campaign.
 
 
 ```solidity
@@ -295,7 +301,7 @@ function getMultipleOptions() external view returns (CasterTypes.MultipleOption[
 
 ### getMerkleRoot
 
-The merkle root for a campaign. Used to validate eligible users.
+The merkle root for a campaign. Used to verify/validate eligible users.
 
 
 ```solidity
@@ -320,7 +326,7 @@ function getLastTimestamp() external view returns (uint256 lastTimestamp);
 
 |Name|Type|Description|
 |----|----|-----------|
-|`lastTimestamp`|`uint256`|UNIX timestamp.|
+|`lastTimestamp`|`uint256`|The UNIX timestamp.|
 
 
 ### getCampaignDuration
@@ -340,7 +346,7 @@ function getCampaignDuration() external view returns (uint256 duration);
 
 ### getCasterNft
 
-Gets the caster nft associated with this campaign.
+Gets the Caster Nft associated with this campaign.
 
 
 ```solidity
@@ -350,7 +356,7 @@ function getCasterNft() external view returns (address casterNft);
 
 |Name|Type|Description|
 |----|----|-----------|
-|`casterNft`|`address`|The address of the caster nft.|
+|`casterNft`|`address`|The address of the Caster Nft.|
 
 
 ## Events

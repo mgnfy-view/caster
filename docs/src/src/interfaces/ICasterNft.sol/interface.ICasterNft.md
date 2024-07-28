@@ -1,5 +1,5 @@
 # ICasterNft
-[Git Source](https://github.com/mgnfy-view/caster/blob/d96545b5627fb207f8442947bac4d9f902606cd5/src/interfaces/ICasterNft.sol)
+[Git Source](https://github.com/mgnfy-view/caster/blob/8657e2d8bdc226333eb8f21b2a1461cea0ac8fff/src/interfaces/ICasterNft.sol)
 
 
 ## Functions

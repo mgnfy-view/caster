@@ -59,7 +59,7 @@ Caster is a general purpose, on-chain, merkle tree based voting protocol which a
 
 Voters can delegate their votes to a single user or multiple users (fractional vote delegation). By default, votes are delegated to the voter itself and once the voter delegates to another user, they cannot be recovered.
 
-Campaigns run for a finite duration (less than 365 days, which is the max duration). At the end ofeach campaign, the result can be obtained using `CasterCampaign::getResultSingleOption()` or `CasterCampaign::getResultMultipleOption()` depending on the campaign type.
+Campaigns run for a finite duration (less than 365 days, which is the max duration). At the end of each campaign, the result can be obtained using `CasterCampaign::getResultSingleOption()` or `CasterCampaign::getResultMultipleOption()` depending on the campaign type.
 
 ### Built With
 
