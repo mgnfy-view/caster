@@ -17,7 +17,7 @@ import { ICasterNft } from "./interfaces/ICasterNft.sol";
 contract CasterNft is ERC721URIStorage, Ownable, ICasterNft {
     uint256 private s_idCounter;
     mapping(address user => uint256 id) private s_userToId;
-    mapping(address user => uint256 votingPower) s_userToVotingPower;
+    mapping(address user => uint256 votingPower) private s_userToVotingPower;
 
     event VotingPowerIncreased(address indexed user, uint256 indexed amount);
     event VotingPowerDecreased(address indexed user, uint256 indexed amount);
