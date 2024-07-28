@@ -9,16 +9,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/mgnfy-view/caster">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+  <a href="https://github.com/mgnfy-view/caster">
+    <img src="images/icon.svg" alt="Logo" width="80" height="80">
+  </a>
 
   <h3 align="center">Caster</h3>
 
   <p align="center">
     Caster is a merkle tree based efficient, general purpose voting protocol which also supports fractional vote delegation
     <br />
-    <a href="https://github.com/mgnfy-view/caster"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/mgnfy-view/caster/tree/main/docs"><strong>Explore the docs »</strong></a>
     <br />
     <a href="https://github.com/mgnfy-view/caster/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
